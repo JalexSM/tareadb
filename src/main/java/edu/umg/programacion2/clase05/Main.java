@@ -38,26 +38,36 @@ public class Main {
 			case 1:
 				agregarEstudiante();
 				break;
+
 			case 2:
 				listarEstudiantes();
 				break;
+
 			case 3:
 				buscarEstudiante();
 				break;
+
 			case 4:
 				actualizarEstudiante();
 				break;
+
 			case 5:
 				eliminarEstudiante();
 				break;
+
 			case 6:
+				listarEstudiantesInactivos();
+				break;
+
+			case 7:
 				System.out.println("Hasta luego.");
 				break;
+
 			default:
 				System.out.println("Opcion invalida. Intenta de nuevo.");
 			}
 			System.out.println();
-		} while (opcion != 6);
+		} while (opcion != 7);
 
 		teclado.close();
 	}
@@ -65,11 +75,12 @@ public class Main {
 	private static void mostrarMenu() {
 		System.out.println("=== CRUD de Estudiantes (MySQL) ===");
 		System.out.println("1. Agregar estudiante");
-		System.out.println("2. Listar todos los estudiantes");
+		System.out.println("2. Listar estudiantes activos");
 		System.out.println("3. Buscar estudiante por carnet");
-		System.out.println("4. Actualizar nombre de un estudiante");
+		System.out.println("4. Actualizar estudiante");
 		System.out.println("5. Eliminar estudiante");
-		System.out.println("6. Salir");
+		System.out.println("6. Listar estudiantes inactivos");
+		System.out.println("7. Salir");
 		System.out.print("Elige una opcion: ");
 	}
 
@@ -95,6 +106,7 @@ public class Main {
 		System.out.print("Carnet: ");
 		String carnet = teclado.nextLine();
 
+		// se agregan activo con su respectiva validacion para que no agregen otro valor
 		int activo;
 		do {
 			System.out.print("Activo (1=activo, 0=inactivo): ");
@@ -105,7 +117,7 @@ public class Main {
 		} while (activo != 0 && activo != 1);
 		teclado.nextLine(); // Limpiar el Enter
 
-		
+		// se agrega el tipo a seleccionar
 		System.out.print("Tipo (Pregrado/Posgrado): ");
 		String tipoTexto = teclado.nextLine();
 		try {
@@ -204,4 +216,30 @@ public class Main {
 			System.err.println("Error al eliminar el estudiante: " + e.getMessage());
 		}
 	}
+
+	//metodo solo para mostrar inactivos
+	
+	private static void listarEstudiantesInactivos() {
+		try {
+
+			List<Estudiante> estudiantes = estudianteDAO.listarInactivos();
+
+			if (estudiantes.isEmpty()) {
+				System.out.println("No hay estudiantes inactivos.");
+				return;
+			}
+
+			System.out.println("=== ESTUDIANTES INACTIVOS ===");
+
+			for (Estudiante estudiante : estudiantes) {
+				System.out.println(estudiante);
+			}
+
+		} catch (SQLException e) {
+
+			System.err.println("Error al listar los estudiantes inactivos: " + e.getMessage());
+		}
+
+	}
+
 }

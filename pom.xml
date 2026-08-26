@@ -18,6 +18,7 @@
          con clase05-jdbc-sin-maven, donde ese mismo .jar hay que descargarlo y
          referenciarlo a mano. -->
     <dependency>
+    <!-- Se cambiaron las dependencias para poder usarlo con MariaDB -->
         <groupId>org.mariadb.jdbc</groupId>
     	<artifactId>mariadb-java-client</artifactId>
     	<version>3.5.6</version>

@@ -31,6 +31,7 @@ public class EstudianteDAO {
 
 	// 1. CREATE: inserta un estudiante nuevo y retorna el id que le asigno MySQL.
 	public int crear(Estudiante estudiante) throws SQLException {
+		//agregamos valores nuevos
 		String sql = "INSERT INTO estudiantes (nombre, carnet, activo, tipo) VALUES (?, ?, ?, ?)";
 
 		try (Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
@@ -56,6 +57,7 @@ public class EstudianteDAO {
 
 	// 2. READ (todos): retorna la lista completa de estudiantes.
 	public List<Estudiante> listarTodos() throws SQLException {
+		//se modifican los valores y como se llaman y solo llamar a activos
 		String sql = "SELECT id, nombre, carnet, activo, tipo FROM estudiantes WHERE activo = 1 ORDER BY id";
 		List<Estudiante> estudiantes = new ArrayList<>();
 
@@ -74,6 +76,7 @@ public class EstudianteDAO {
 	// null "silencioso" cuando no se encuentra nada; obliga a quien llama este
 	// metodo a manejar explicitamente el caso "no existe".
 	public Optional<Estudiante> buscarPorCarnet(String carnet) throws SQLException {
+		//solo llama a estudiantes activos 
 		String sql = "SELECT id, nombre, carnet, activo, tipo FROM estudiantes WHERE carnet = ? AND activo = 1";
 
 		try (Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
@@ -94,7 +97,7 @@ public class EstudianteDAO {
 	// su carnet. Retorna true si se actualizo una fila, false si no existia.
 	public boolean actualizarEstudiante(String carnet, String nuevoNombre, int activo, Estudiante.Tipo tipo)
 			throws SQLException {
-
+		//se actualizan los nuevos valores 
 		String sql = "UPDATE estudiantes " + "SET nombre = ?, activo = ?, tipo = ? " + "WHERE carnet = ?";
 
 		try (Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
